@@ -27,7 +27,7 @@ const Rankings = () => {
         },
         {
           id: '2',
-          name: 'X-Treino Favela Cup',
+          name: 'X-Treino Cod Mobile',
           status: 'registration'
         },
         {

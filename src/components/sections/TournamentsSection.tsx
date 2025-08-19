@@ -7,7 +7,7 @@ const mockTournaments = [
   {
     id: 1,
     name: "BR Masters Championship",
-    description: "Professional Battle Royale tournament with 25 teams per group",
+    description: "Torneio profissional de Battle Royale com 25 times por grupo",
     status: "live",
     teams: 75,
     groups: 3,
@@ -17,8 +17,8 @@ const mockTournaments = [
   },
   {
     id: 2,
-    name: "X-Treino Favela Cup",
-    description: "Community training tournament for skill development",
+    name: "X-Treino Cod Mobile",
+    description: "Torneio de treinamento da comunidade para desenvolvimento de habilidades",
     status: "registration",
     teams: 42,
     groups: 2,
@@ -29,7 +29,7 @@ const mockTournaments = [
   {
     id: 3,
     name: "Elite Squad Championship",
-    description: "High-level competitive tournament for top teams",
+    description: "Torneio competitivo de alto nível para times de elite",
     status: "upcoming",
     teams: 50,
     groups: 2,
@@ -51,9 +51,9 @@ const TournamentsSection = () => {
 
   const getStatusText = (status: string) => {
     switch (status) {
-      case "live": return "LIVE";
-      case "registration": return "OPEN";
-      case "upcoming": return "SOON";
+      case "live": return "AO VIVO";
+      case "registration": return "ABERTO";
+      case "upcoming": return "EM BREVE";
       default: return status.toUpperCase();
     }
   };
@@ -63,10 +63,10 @@ const TournamentsSection = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="font-gaming text-4xl md:text-5xl font-bold text-gaming-primary mb-4">
-            Active Tournaments
+            Torneios Ativos
           </h2>
           <p className="font-gaming-body text-lg text-muted-foreground max-w-2xl mx-auto">
-            Join competitive tournaments or create your own. Professional organization with automated results.
+            Participe de torneios competitivos ou crie o seu próprio. Organização profissional com resultados automatizados.
           </p>
         </div>
 
@@ -90,7 +90,7 @@ const TournamentsSection = () => {
                   <div className="grid grid-cols-2 gap-4">
                     <div className="flex items-center gap-2">
                       <Users className="w-4 h-4 text-gaming-accent" />
-                      <span className="text-sm font-gaming-body">{tournament.teams} Teams</span>
+                      <span className="text-sm font-gaming-body">{tournament.teams} Times</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <Trophy className="w-4 h-4 text-gaming-primary" />
@@ -110,8 +110,8 @@ const TournamentsSection = () => {
                       variant={tournament.status === "live" ? "gaming-danger" : "gaming"} 
                       className="w-full group-hover:scale-105 transition-transform"
                     >
-                      {tournament.status === "live" ? "View Live" : 
-                       tournament.status === "registration" ? "Register Team" : "View Details"}
+                      {tournament.status === "live" ? "Ver Ao Vivo" : 
+                       tournament.status === "registration" ? "Registrar Time" : "Ver Detalhes"}
                     </Button>
                   </div>
                 </div>
@@ -122,7 +122,7 @@ const TournamentsSection = () => {
         
         <div className="text-center">
           <Button variant="gaming-outline" size="lg">
-            View All Tournaments
+            Ver Todos os Torneios
           </Button>
         </div>
       </div>

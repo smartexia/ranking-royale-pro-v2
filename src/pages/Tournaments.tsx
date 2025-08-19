@@ -56,7 +56,7 @@ const Tournaments = () => {
         },
         {
           id: '2',
-          name: 'X-Treino Favela Cup',
+          name: 'X-Treino Cod Mobile',
           description: 'Torneio comunitário de treinamento para desenvolvimento de habilidades',
           status: 'registration',
           prize_pool: 'R$ 3.500',

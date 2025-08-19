@@ -17,14 +17,14 @@ const CTASection = () => {
           <div className="flex items-center justify-center gap-2 mb-6">
             <Sparkles className="w-8 h-8 text-white animate-pulse" />
             <h2 className="font-gaming text-4xl md:text-5xl lg:text-6xl font-bold text-white">
-              Ready to Dominate?
+              Pronto para Dominar?
             </h2>
             <Sparkles className="w-8 h-8 text-white animate-pulse delay-500" />
           </div>
           
           <p className="font-gaming-body text-xl text-white/90 mb-8 leading-relaxed">
-            Join the next generation of Call of Duty Mobile tournament organization. 
-            Create professional tournaments with AI-powered automation.
+            Junte-se à próxima geração de organização de torneios de Call of Duty Mobile. 
+            Crie torneios profissionais com automação baseada em IA.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -33,7 +33,7 @@ const CTASection = () => {
               size="xl" 
               className="bg-white/10 border-white text-white hover:bg-white hover:text-background transition-all duration-300 backdrop-blur-sm"
             >
-              Start Free Tournament
+              Iniciar Torneio Grátis
               <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
             <Button 
@@ -41,19 +41,19 @@ const CTASection = () => {
               size="xl"
               className="border-white/50 text-white hover:bg-white/10 backdrop-blur-sm"
             >
-              View Demo
+              Ver Demo
             </Button>
           </div>
           
           <div className="mt-8 flex items-center justify-center gap-8 text-white/70 font-gaming-body">
             <div className="flex items-center gap-2">
-              ✓ Free to use
+              ✓ Gratuito para usar
             </div>
             <div className="flex items-center gap-2">
-              ✓ AI-powered
+              ✓ Powered by IA
             </div>
             <div className="flex items-center gap-2">
-              ✓ Professional results
+              ✓ Resultados profissionais
             </div>
           </div>
         </div>

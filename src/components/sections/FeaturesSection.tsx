@@ -4,33 +4,33 @@ import { Brain, Upload, Trophy, Users, BarChart3, Share2 } from "lucide-react";
 const features = [
   {
     icon: Brain,
-    title: "AI-Powered Results",
-    description: "Gemini AI automatically processes screenshots to extract team positions, kills, and match data with high accuracy."
+    title: "Resultados com IA",
+    description: "IA Gemini processa automaticamente screenshots para extrair posições de times, kills e dados de partida com alta precisão."
   },
   {
     icon: Upload,
-    title: "Smart Upload System",
-    description: "Upload multiple screenshots per match. Our system intelligently combines and analyzes all result images."
+    title: "Sistema de Upload Inteligente",
+    description: "Faça upload de múltiplas screenshots por partida. Nosso sistema combina e analisa inteligentemente todas as imagens de resultado."
   },
   {
     icon: Trophy,
-    title: "Automated Rankings",
-    description: "Real-time point calculation based on configurable rules. Professional rankings updated automatically."
+    title: "Rankings Automatizados",
+    description: "Cálculo de pontos em tempo real baseado em regras configuráveis. Rankings profissionais atualizados automaticamente."
   },
   {
     icon: Users,
-    title: "Team Management",
-    description: "Easy team registration and management. Support for up to 25 teams per group with flexible tournament structures."
+    title: "Gerenciamento de Times",
+    description: "Registro e gerenciamento fácil de times. Suporte para até 25 times por grupo com estruturas flexíveis de torneio."
   },
   {
     icon: BarChart3,
-    title: "Advanced Analytics",
-    description: "Detailed statistics including kills, survival time, and performance trends for teams and individual players."
+    title: "Análises Avançadas",
+    description: "Estatísticas detalhadas incluindo kills, tempo de sobrevivência e tendências de performance para times e jogadores individuais."
   },
   {
     icon: Share2,
-    title: "Professional Export",
-    description: "Generate beautiful, shareable ranking images with custom branding for social media and community sharing."
+    title: "Exportação Profissional",
+    description: "Gere imagens bonitas e compartilháveis de rankings com marca personalizada para redes sociais e compartilhamento na comunidade."
   }
 ];
 
@@ -40,10 +40,10 @@ const FeaturesSection = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="font-gaming text-4xl md:text-5xl font-bold text-gaming-primary mb-4">
-            Platform Features
+            Recursos da Plataforma
           </h2>
           <p className="font-gaming-body text-lg text-muted-foreground max-w-2xl mx-auto">
-            Professional tournament management with cutting-edge AI technology and automated workflows.
+            Gerenciamento profissional de torneios com tecnologia de IA de ponta e fluxos de trabalho automatizados.
           </p>
         </div>
 

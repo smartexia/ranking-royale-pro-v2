@@ -29,20 +29,20 @@ const Auth = () => {
       const { error } = await signIn(email, password);
       if (error) {
         toast({
-          title: "Erro no login",
+          title: "Login Error",
           description: error.message,
           variant: "destructive"
         });
       } else {
         toast({
-          title: "Login realizado!",
-          description: "Bem-vindo de volta ao RankingRoyale!"
+          title: "Login Successful!",
+          description: "Welcome back to RankingRoyale!"
         });
       }
     } catch (error) {
       toast({
-        title: "Erro",
-        description: "Algo deu errado. Tente novamente.",
+        title: "Error",
+        description: "Something went wrong. Please try again.",
         variant: "destructive"
       });
     } finally {

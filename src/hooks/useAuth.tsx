@@ -58,7 +58,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     console.log('🔍 [DEBUG] Resultado do signUp:', { data, error });
     
     if (error) {
-      console.error('❌ [ERROR] Erro no signUp:', error);
+      console.error('❌ [ERROR] SignUp error:', error);
       return { error };
     }
     
@@ -92,7 +92,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           console.log('🔍 [DEBUG] Criação manual do perfil:', { newProfile, createError });
           
           if (createError) {
-            console.error('❌ [ERROR] Falha ao criar perfil manualmente:', createError);
+            console.error('❌ [ERROR] Failed to create profile manually:', createError);
           } else {
             console.log('✅ [SUCCESS] Perfil criado manualmente:', newProfile);
           }
@@ -100,7 +100,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           console.log('✅ [SUCCESS] Perfil encontrado (trigger funcionou):', profile);
         }
       } catch (profileCheckError) {
-        console.error('❌ [ERROR] Erro ao verificar perfil:', profileCheckError);
+        console.error('❌ [ERROR] Error checking profile:', profileCheckError);
       }
     }
     
@@ -129,7 +129,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error('useAuth deve ser usado dentro de um AuthProvider');
   }
   return context;
 };

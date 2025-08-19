@@ -44,7 +44,7 @@ const TeamCreateModal: React.FC<TeamCreateModalProps> = ({ isOpen, onClose, onTe
     
     if (!user) {
       toast({
-        title: "Erro de autenticação",
+        title: "Erro de Autenticação",
         description: "Você precisa estar logado para criar um time.",
         variant: "destructive"
       });
@@ -53,7 +53,7 @@ const TeamCreateModal: React.FC<TeamCreateModalProps> = ({ isOpen, onClose, onTe
 
     if (!formData.name.trim()) {
       toast({
-        title: "Nome obrigatório",
+        title: "Nome Obrigatório",
         description: "Por favor, insira um nome para o time.",
         variant: "destructive"
       });
@@ -62,7 +62,7 @@ const TeamCreateModal: React.FC<TeamCreateModalProps> = ({ isOpen, onClose, onTe
 
     if (!formData.tag.trim()) {
       toast({
-        title: "Tag obrigatória",
+        title: "Tag Obrigatória",
         description: "Por favor, insira uma tag para o time.",
         variant: "destructive"
       });
@@ -72,8 +72,8 @@ const TeamCreateModal: React.FC<TeamCreateModalProps> = ({ isOpen, onClose, onTe
     const activePlayers = formData.players.filter(player => player.trim() !== '');
     if (activePlayers.length < 3) {
       toast({
-        title: "Jogadores insuficientes",
-        description: "O time deve ter pelo menos 3 jogadores.",
+        title: "Insufficient Players",
+        description: "Team must have at least 3 players.",
         variant: "destructive"
       });
       return;
@@ -90,7 +90,7 @@ const TeamCreateModal: React.FC<TeamCreateModalProps> = ({ isOpen, onClose, onTe
         .single();
 
       if (profileError || !profile) {
-        throw new Error('Perfil do usuário não encontrado');
+        throw new Error('User profile not found');
       }
 
       // Criar o time
@@ -129,7 +129,7 @@ const TeamCreateModal: React.FC<TeamCreateModalProps> = ({ isOpen, onClose, onTe
     } catch (error: any) {
       console.error('Erro ao criar time:', error);
       toast({
-        title: "Erro ao criar time",
+        title: "Erro ao Criar Time",
         description: error.message || 'Ocorreu um erro inesperado.',
         variant: "destructive"
       });

@@ -28,7 +28,7 @@ const Header = () => {
           <div className="hidden md:flex items-center gap-8">
             <Link to="/tournaments" className="flex items-center gap-2 text-foreground hover:text-gaming-primary transition-colors font-gaming-body">
               <Trophy className="w-4 h-4" />
-              Tournaments
+              Torneios
             </Link>
             <Link to="/rankings" className="flex items-center gap-2 text-foreground hover:text-gaming-primary transition-colors font-gaming-body">
               <Target className="w-4 h-4" />
@@ -36,7 +36,7 @@ const Header = () => {
             </Link>
             <Link to="/teams" className="flex items-center gap-2 text-foreground hover:text-gaming-primary transition-colors font-gaming-body">
               <Users className="w-4 h-4" />
-              Teams
+              Times
             </Link>
           </div>
           
@@ -55,10 +55,10 @@ const Header = () => {
             ) : (
               <>
                 <Link to="/auth">
-                  <Button variant="gaming-outline" size="sm">Login</Button>
+                  <Button variant="gaming-outline" size="sm">Entrar</Button>
                 </Link>
                 <Link to="/auth">
-                  <Button variant="gaming" size="sm">Register</Button>
+                  <Button variant="gaming" size="sm">Registrar</Button>
                 </Link>
               </>
             )}
