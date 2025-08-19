@@ -9,13 +9,11 @@ import { useToast } from '@/hooks/use-toast';
 import { Loader2, GamepadIcon } from 'lucide-react';
 
 const Auth = () => {
-  const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [username, setUsername] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   
-  const { user, signIn, signUp } = useAuth();
+  const { user, signIn } = useAuth();
   const { toast } = useToast();
 
   // Redirect if already authenticated
@@ -28,44 +26,18 @@ const Auth = () => {
     setIsLoading(true);
 
     try {
-      if (isLogin) {
-        const { error } = await signIn(email, password);
-        if (error) {
-          toast({
-            title: "Erro no login",
-            description: error.message,
-            variant: "destructive"
-          });
-        } else {
-          toast({
-            title: "Login realizado!",
-            description: "Bem-vindo de volta ao RankingRoyale!"
-          });
-        }
+      const { error } = await signIn(email, password);
+      if (error) {
+        toast({
+          title: "Erro no login",
+          description: error.message,
+          variant: "destructive"
+        });
       } else {
-        if (!username.trim()) {
-          toast({
-            title: "Username obrigatório",
-            description: "Por favor, insira um nome de usuário",
-            variant: "destructive"
-          });
-          setIsLoading(false);
-          return;
-        }
-
-        const { error } = await signUp(email, password, username);
-        if (error) {
-          toast({
-            title: "Erro no cadastro",
-            description: error.message,
-            variant: "destructive"
-          });
-        } else {
-          toast({
-            title: "Cadastro realizado!",
-            description: "Verifique seu email para confirmar a conta."
-          });
-        }
+        toast({
+          title: "Login realizado!",
+          description: "Bem-vindo de volta ao RankingRoyale!"
+        });
       }
     } catch (error) {
       toast({
@@ -87,40 +59,22 @@ const Auth = () => {
             <h1 className="font-gaming text-3xl font-bold text-gaming-primary">RankingRoyale</h1>
           </div>
           <p className="font-gaming-body text-muted-foreground">
-            {isLogin ? 'Entre na sua conta' : 'Crie sua conta de jogador'}
+            Entre na sua conta
           </p>
         </div>
 
         <GamingCard variant="tournament">
           <GamingCardHeader>
             <GamingCardTitle className="text-center">
-              {isLogin ? 'Login' : 'Cadastro'}
+              Login
             </GamingCardTitle>
             <GamingCardDescription className="text-center">
-              {isLogin 
-                ? 'Acesse sua conta para gerenciar times e torneios'
-                : 'Junte-se à maior plataforma de torneios de COD Mobile'
-              }
+              Acesse sua conta para gerenciar times e torneios
             </GamingCardDescription>
           </GamingCardHeader>
           
           <GamingCardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
-              {!isLogin && (
-                <div className="space-y-2">
-                  <Label htmlFor="username" className="font-gaming-body">Username</Label>
-                  <Input
-                    id="username"
-                    type="text"
-                    placeholder="Seu nome de jogador"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    className="font-gaming-body"
-                    required={!isLogin}
-                  />
-                </div>
-              )}
-              
               <div className="space-y-2">
                 <Label htmlFor="email" className="font-gaming-body">Email</Label>
                 <Input
@@ -156,26 +110,13 @@ const Auth = () => {
                 {isLoading ? (
                   <>
                     <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    {isLogin ? 'Entrando...' : 'Cadastrando...'}
+                    Entrando...
                   </>
                 ) : (
-                  isLogin ? 'Entrar' : 'Criar Conta'
+                  'Entrar'
                 )}
               </Button>
             </form>
-            
-            <div className="mt-6 text-center">
-              <button
-                type="button"
-                onClick={() => setIsLogin(!isLogin)}
-                className="font-gaming-body text-gaming-accent hover:text-gaming-primary transition-colors"
-              >
-                {isLogin 
-                  ? 'Não tem conta? Cadastre-se' 
-                  : 'Já tem conta? Faça login'
-                }
-              </button>
-            </div>
           </GamingCardContent>
         </GamingCard>
       </div>
