@@ -52,6 +52,7 @@ const Teams = () => {
         .order('created_at', { ascending: false });
 
       if (error) {
+        console.error('Erro ao buscar times:', error);
         throw error;
       }
 
@@ -66,6 +67,7 @@ const Teams = () => {
       setTeams(transformedTeams);
       setFilteredTeams(transformedTeams);
     } catch (error: unknown) {
+      console.error('Erro ao carregar times:', error);
       toast({
         title: "Erro ao carregar times",
         description: error instanceof Error ? error.message : 'Erro desconhecido',
