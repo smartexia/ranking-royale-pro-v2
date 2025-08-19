@@ -12,6 +12,7 @@ export default defineConfig(({ mode }) => ({
   preview: {
     host: "::",
     port: 8080,
+    allowedHosts: ["rankingroyale.smartexautomacoes.online"],
   },
   plugins: [
     react(),
