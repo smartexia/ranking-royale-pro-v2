@@ -20,7 +20,7 @@ const Header = () => {
           <Link to="/" className="flex items-center gap-3">
             <img src={codLogo} alt="COD Tournament Platform" className="w-10 h-10" />
             <div>
-              <h1 className="font-gaming text-xl text-gaming-primary">COD ARENA</h1>
+              <h1 className="font-gaming text-xl text-gaming-primary">RANKINGROYALE</h1>
               <p className="text-xs text-muted-foreground font-gaming-body">Tournament Platform</p>
             </div>
           </Link>

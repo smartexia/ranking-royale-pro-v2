@@ -10,9 +10,9 @@ const Footer = () => {
           {/* Brand */}
           <div className="space-y-4">
             <div className="flex items-center gap-3">
-              <img src={codLogo} alt="COD Arena" className="w-8 h-8" />
+              <img src={codLogo} alt="RankingRoyale" className="w-8 h-8" />
               <div>
-                <h3 className="font-gaming text-lg text-gaming-primary">COD ARENA</h3>
+                <h3 className="font-gaming text-lg text-gaming-primary">RANKINGROYALE</h3>
                 <p className="text-xs text-muted-foreground font-gaming-body">Tournament Platform</p>
               </div>
             </div>
@@ -68,7 +68,7 @@ const Footer = () => {
 
         <div className="border-t border-gaming-primary/20 mt-8 pt-8 flex flex-col md:flex-row items-center justify-between">
           <p className="font-gaming-body text-sm text-muted-foreground">
-            © 2024 COD Arena. All rights reserved.
+            © 2024 RankingRoyale. All rights reserved.
           </p>
           <div className="flex items-center gap-4 mt-4 md:mt-0">
             <a href="#" className="font-gaming-body text-sm text-muted-foreground hover:text-gaming-primary transition-colors">Privacy</a>

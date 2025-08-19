@@ -18,7 +18,7 @@ const HeroSection = () => {
       <div className="relative z-10 container mx-auto px-4 text-center">
         <div className="max-w-4xl mx-auto">
           <h1 className="font-gaming text-5xl md:text-7xl lg:text-8xl font-bold mb-6 bg-gradient-gaming bg-clip-text text-transparent animate-glow">
-            COD ARENA
+            RANKINGROYALE
           </h1>
           
           <p className="font-gaming text-xl md:text-2xl text-gaming-primary mb-4">

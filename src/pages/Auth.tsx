@@ -39,7 +39,7 @@ const Auth = () => {
         } else {
           toast({
             title: "Login realizado!",
-            description: "Bem-vindo de volta ao COD Arena!"
+            description: "Bem-vindo de volta ao RankingRoyale!"
           });
         }
       } else {
@@ -84,7 +84,7 @@ const Auth = () => {
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-3 mb-4">
             <GamepadIcon className="w-8 h-8 text-gaming-primary" />
-            <h1 className="font-gaming text-3xl font-bold text-gaming-primary">COD Arena</h1>
+            <h1 className="font-gaming text-3xl font-bold text-gaming-primary">RankingRoyale</h1>
           </div>
           <p className="font-gaming-body text-muted-foreground">
             {isLogin ? 'Entre na sua conta' : 'Crie sua conta de jogador'}

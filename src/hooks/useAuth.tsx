@@ -41,7 +41,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const signUp = async (email: string, password: string, username?: string) => {
     const redirectUrl = `${window.location.origin}/`;
     
-    const { error } = await supabase.auth.signUp({
+    console.log('🔍 [DEBUG] Iniciando signUp com:', { email, username, redirectUrl });
+    
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -52,6 +54,56 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         }
       }
     });
+    
+    console.log('🔍 [DEBUG] Resultado do signUp:', { data, error });
+    
+    if (error) {
+      console.error('❌ [ERROR] Erro no signUp:', error);
+      return { error };
+    }
+    
+    if (data.user) {
+      console.log('✅ [SUCCESS] Usuário criado:', data.user.id);
+      
+      // Verificar se o perfil foi criado automaticamente pelo trigger
+      try {
+        const { data: profile, error: profileError } = await supabase
+          .from('profiles')
+          .select('*')
+          .eq('user_id', data.user.id)
+          .single();
+          
+        console.log('🔍 [DEBUG] Verificação do perfil:', { profile, profileError });
+        
+        if (profileError && profileError.code === 'PGRST116') {
+          console.log('⚠️ [WARNING] Perfil não encontrado, criando manualmente...');
+          
+          // Criar perfil manualmente se o trigger falhou
+          const { data: newProfile, error: createError } = await supabase
+            .from('profiles')
+            .insert({
+              user_id: data.user.id,
+              username: username,
+              full_name: username
+            })
+            .select()
+            .single();
+            
+          console.log('🔍 [DEBUG] Criação manual do perfil:', { newProfile, createError });
+          
+          if (createError) {
+            console.error('❌ [ERROR] Falha ao criar perfil manualmente:', createError);
+          } else {
+            console.log('✅ [SUCCESS] Perfil criado manualmente:', newProfile);
+          }
+        } else if (profile) {
+          console.log('✅ [SUCCESS] Perfil encontrado (trigger funcionou):', profile);
+        }
+      } catch (profileCheckError) {
+        console.error('❌ [ERROR] Erro ao verificar perfil:', profileCheckError);
+      }
+    }
+    
     return { error };
   };
 

@@ -250,7 +250,7 @@ const Tournaments = () => {
                       </div>
                       
                       <div className="text-xs font-gaming-body text-muted-foreground">
-                        Organizado por: {championship.organizer?.username || championship.organizer?.full_name || 'COD Arena'}
+                        Organizado por: {championship.organizer?.username || championship.organizer?.full_name || 'RankingRoyale'}
                       </div>
                       
                       <div className="pt-2">

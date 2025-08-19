@@ -10,9 +10,10 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 import { Team } from '@/types';
+import TeamCreateModal from '@/components/ui/team-create-modal';
+import TeamProfileModal from '@/components/ui/team-profile-modal';
 
 interface TeamWithStats extends Team {
-  tag: string | null;
   logo_url: string | null;
   players: string[] | null;
   captain: {
@@ -28,173 +29,42 @@ const Teams = () => {
   const [filteredTeams, setFilteredTeams] = useState<TeamWithStats[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [selectedTeam, setSelectedTeam] = useState<TeamWithStats | null>(null);
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
   const { user } = useAuth();
   const { toast } = useToast();
 
-  useEffect(() => {
-    fetchTeams();
-  }, []);
-
-  useEffect(() => {
-    const filtered = teams.filter(team => 
-      team.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      team.tag?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      team.captain?.username?.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setFilteredTeams(filtered);
-  }, [searchTerm, teams]);
-
   const fetchTeams = useCallback(async () => {
     try {
-      // Dados mockados para demonstração
-      const mockTeams: TeamWithStats[] = [
-        {
-          id: '1',
-          name: 'Venom Squad',
-          tag: 'VNM',
-          logo_url: null,
-          players: ['VenomLeader', 'VenomSniper', 'VenomSupport'],
-          created_at: '2024-01-10T10:00:00Z',
-          captain: {
-            username: 'venom_leader',
-            full_name: 'João Silva'
-          },
-          tournaments_count: 8,
-          total_points: 1245
-        },
-        {
-          id: '2',
-          name: 'Thunder Wolves',
-          tag: 'TWF',
-          logo_url: null,
-          players: ['ThunderAlpha', 'ThunderBeta', 'ThunderGamma'],
-          created_at: '2024-01-08T14:30:00Z',
-          captain: {
-            username: 'thunder_alpha',
-            full_name: 'Maria Santos'
-          },
-          tournaments_count: 6,
-          total_points: 1189
-        },
-        {
-          id: '3',
-          name: 'Phoenix Rising',
-          tag: 'PHX',
-          logo_url: null,
-          players: ['PhoenixFire', 'PhoenixWing', 'PhoenixTail'],
-          created_at: '2024-01-05T16:45:00Z',
-          captain: {
-            username: 'phoenix_fire',
-            full_name: 'Carlos Oliveira'
-          },
-          tournaments_count: 7,
-          total_points: 1098
-        },
-        {
-          id: '4',
-          name: 'Shadow Hunters',
-          tag: 'SHD',
-          logo_url: null,
-          players: ['ShadowMaster', 'ShadowBlade', 'ShadowGhost'],
-          created_at: '2024-01-12T09:15:00Z',
-          captain: {
-            username: 'shadow_master',
-            full_name: 'Ana Costa'
-          },
-          tournaments_count: 5,
-          total_points: 987
-        },
-        {
-          id: '5',
-          name: 'Elite Force',
-          tag: 'ELT',
-          logo_url: null,
-          players: ['EliteCommander', 'EliteSoldier', 'EliteScout'],
-          created_at: '2024-01-15T11:20:00Z',
-          captain: {
-            username: 'elite_commander',
-            full_name: 'Pedro Ferreira'
-          },
-          tournaments_count: 4,
-          total_points: 876
-        },
-        {
-          id: '6',
-          name: 'Storm Breakers',
-          tag: 'STM',
-          logo_url: null,
-          players: ['StormLord', 'StormRider', 'StormCaller'],
-          created_at: '2024-01-18T13:00:00Z',
-          captain: {
-            username: 'storm_lord',
-            full_name: 'Lucia Mendes'
-          },
-          tournaments_count: 3,
-          total_points: 765
-        },
-        {
-          id: '7',
-          name: 'Cyber Ninjas',
-          tag: 'CYB',
-          logo_url: null,
-          players: ['CyberSensei', 'CyberShadow', 'CyberBlade'],
-          created_at: '2024-01-20T15:30:00Z',
-          captain: {
-            username: 'cyber_sensei',
-            full_name: 'Rafael Lima'
-          },
-          tournaments_count: 2,
-          total_points: 654
-        },
-        {
-          id: '8',
-          name: 'Iron Eagles',
-          tag: 'IRN',
-          logo_url: null,
-          players: ['IronWing', 'IronTalon', 'IronEye'],
-          created_at: '2024-01-22T17:45:00Z',
-          captain: {
-            username: 'iron_wing',
-            full_name: 'Fernanda Rocha'
-          },
-          tournaments_count: 1,
-          total_points: 543
-        },
-        {
-          id: '9',
-          name: 'Flame Warriors',
-          tag: 'FLM',
-          logo_url: null,
-          players: ['FlameKing', 'FlameKnight', 'FlameMage'],
-          created_at: '2024-01-25T12:00:00Z',
-          captain: {
-            username: 'flame_king',
-            full_name: 'Bruno Alves'
-          },
-          tournaments_count: 3,
-          total_points: 432
-        },
-        {
-          id: '10',
-          name: 'Ice Guardians',
-          tag: 'ICE',
-          logo_url: null,
-          players: ['IceLord', 'IceShield', 'IceSword'],
-          created_at: '2024-01-28T08:30:00Z',
-          captain: {
-            username: 'ice_lord',
-            full_name: 'Camila Souza'
-          },
-          tournaments_count: 2,
-          total_points: 321
-        }
-      ];
+      // Buscar times do banco de dados
+      const { data: teamsData, error } = await supabase
+        .from('teams')
+        .select(`
+          id,
+          name,
+          tag,
+          logo_url,
+          players,
+          created_at,
+          captain_id
+        `)
+        .order('created_at', { ascending: false });
 
-      // Simular delay de rede
-      await new Promise(resolve => setTimeout(resolve, 600));
+      if (error) {
+        throw error;
+      }
+
+      // Transformar os dados para o formato esperado
+      const transformedTeams: TeamWithStats[] = (teamsData || []).map(team => ({
+        ...team,
+        captain: { username: 'N/A', full_name: 'N/A' }, // TODO: Buscar dados do capitão
+        tournaments_count: 0, // TODO: Implementar contagem real de torneios
+        total_points: 0 // TODO: Implementar cálculo real de pontos
+      }));
       
-      setTeams(mockTeams);
-      setFilteredTeams(mockTeams);
+      setTeams(transformedTeams);
+      setFilteredTeams(transformedTeams);
     } catch (error: unknown) {
       toast({
         title: "Erro ao carregar times",
@@ -205,6 +75,40 @@ const Teams = () => {
       setLoading(false);
     }
   }, [toast]);
+
+  useEffect(() => {
+    fetchTeams();
+  }, [fetchTeams, refreshTrigger]);
+
+  useEffect(() => {
+    const filtered = teams.filter(team => 
+      team.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      team.tag?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      team.captain?.username?.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredTeams(filtered);
+  }, [searchTerm, teams]);
+
+  const handleCreateTeam = () => {
+    if (!user) {
+      toast({
+        title: "Login necessário",
+        description: "Você precisa estar logado para criar um time.",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    setShowCreateModal(true);
+  };
+
+  const handleTeamCreated = () => {
+    setRefreshTrigger(prev => prev + 1);
+  };
+
+  const handleViewTeamProfile = (team: TeamWithStats) => {
+    setSelectedTeam(team);
+  };
 
   const getTeamBadgeVariant = (tournamentCount: number) => {
     if (tournamentCount >= 5) return "default";
@@ -250,7 +154,12 @@ const Teams = () => {
             </div>
             
             {user && (
-              <Button variant="gaming" size="lg" className="flex items-center gap-2 mt-4 md:mt-0">
+              <Button 
+                variant="gaming" 
+                size="lg" 
+                className="flex items-center gap-2 mt-4 md:mt-0"
+                onClick={handleCreateTeam}
+              >
                 <Plus className="w-5 h-5" />
                 Criar Time
               </Button>
@@ -374,6 +283,7 @@ const Teams = () => {
                         <Button 
                           variant="gaming-outline" 
                           className="w-full group-hover:scale-105 transition-transform"
+                          onClick={() => handleViewTeamProfile(team)}
                         >
                           Ver Perfil
                         </Button>
@@ -388,6 +298,20 @@ const Teams = () => {
       </section>
       
       <Footer />
+
+      {/* Modal de criação de time */}
+      <TeamCreateModal
+        isOpen={showCreateModal}
+        onClose={() => setShowCreateModal(false)}
+        onTeamCreated={handleTeamCreated}
+      />
+
+      {/* Modal de visualização de perfil do time */}
+      <TeamProfileModal
+        isOpen={!!selectedTeam}
+        onClose={() => setSelectedTeam(null)}
+        team={selectedTeam}
+      />
     </div>
   );
 };

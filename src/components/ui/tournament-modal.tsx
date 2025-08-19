@@ -163,7 +163,7 @@ const TournamentModal: React.FC<TournamentModalProps> = ({ tournament, isOpen, o
               <Award className="w-5 h-5 text-gaming-primary" />
               <div>
                 <p className="font-gaming-body text-sm text-muted-foreground">Organizado por</p>
-                <p className="font-gaming">{tournament.organizer?.full_name || tournament.organizer?.username || 'COD Arena'}</p>
+                <p className="font-gaming">{tournament.organizer?.full_name || tournament.organizer?.username || 'RankingRoyale'}</p>
               </div>
             </div>
           </div>
