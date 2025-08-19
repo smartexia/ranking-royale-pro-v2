@@ -6,7 +6,6 @@ nixPkgs = ["nodejs_18", "yarn"]
 
 [phases.install]
 cmds = [
-  "yarn cache clean",
   "yarn install --frozen-lockfile --network-timeout 300000"
 ]
 
