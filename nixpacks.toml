@@ -2,21 +2,21 @@
 NODE_VERSION = "18.20.5"
 
 [phases.setup]
-nixPkgs = ["nodejs_18"]
+nixPkgs = ["nodejs_18", "yarn"]
 
 [phases.install]
 cmds = [
-  "npm cache clean --force",
-  "npm install --no-audit --progress=false --timeout=300000"
+  "yarn cache clean",
+  "yarn install --frozen-lockfile --network-timeout 300000"
 ]
 
 [phases.build]
 cmds = [
-  "npm run build"
+  "yarn build"
 ]
 
 [start]
-cmd = "npm run preview"
+cmd = "yarn preview"
 
 [staticAssets]
 dir = "dist"
