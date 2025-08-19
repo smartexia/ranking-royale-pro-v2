@@ -1,0 +1,21 @@
+[variables]
+NODE_VERSION = "18.20.5"
+
+[phases.setup]
+nixPkgs = ["nodejs_18", "npm"]
+
+[phases.install]
+cmds = [
+  "npm ci --prefer-offline --no-audit --progress=false"
+]
+
+[phases.build]
+cmds = [
+  "npm run build"
+]
+
+[start]
+cmd = "npm run preview"
+
+[staticAssets]
+dir = "dist"
