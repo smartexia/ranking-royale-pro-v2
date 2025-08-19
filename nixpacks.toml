@@ -6,7 +6,8 @@ nixPkgs = ["nodejs_18"]
 
 [phases.install]
 cmds = [
-  "npm ci --prefer-offline --no-audit --progress=false"
+  "npm cache clean --force",
+  "npm install --no-audit --progress=false --timeout=300000"
 ]
 
 [phases.build]
