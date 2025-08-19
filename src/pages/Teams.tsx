@@ -37,8 +37,21 @@ const Teams = () => {
 
   const fetchTeams = useCallback(async () => {
     try {
-      // Buscar times do banco de dados
-      const { data: teamsData, error } = await supabase
+      setLoading(true);
+      
+      // Verificar se as variáveis de ambiente estão disponíveis
+      if (!import.meta.env.VITE_SUPABASE_URL || !import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY) {
+        throw new Error('Variáveis de ambiente do Supabase não configuradas');
+      }
+      
+      console.log('🔍 [DEBUG] Iniciando busca de times...');
+      
+      // Implementar timeout para a query
+      const timeoutPromise = new Promise((_, reject) => {
+        setTimeout(() => reject(new Error('Timeout na conexão com o banco de dados')), 10000);
+      });
+      
+      const queryPromise = supabase
         .from('teams')
         .select(`
           id,
@@ -50,27 +63,80 @@ const Teams = () => {
           captain_id
         `)
         .order('created_at', { ascending: false });
+      
+      // Executar query com timeout
+      const { data: teamsData, error } = await Promise.race([queryPromise, timeoutPromise]) as any;
 
       if (error) {
-        console.error('Erro ao buscar times:', error);
-        throw error;
+        console.error('❌ [ERROR] Erro na query de times:', error);
+        
+        // Implementar fallback com dados mock em caso de erro
+        const mockTeams: TeamWithStats[] = [
+          {
+            id: 'mock-1',
+            name: 'Time de Exemplo',
+            tag: 'DEMO',
+            logo_url: null,
+            players: ['Player1', 'Player2', 'Player3'],
+            created_at: new Date().toISOString(),
+            captain_id: 'mock-captain',
+            captain: { username: 'Capitão', full_name: 'Capitão Demo' },
+            tournaments_count: 0,
+            total_points: 0
+          }
+        ];
+        
+        console.log('⚠️ [WARNING] Usando dados de fallback devido ao erro');
+        setTeams(mockTeams);
+        setFilteredTeams(mockTeams);
+        
+        toast({
+          title: "Erro ao carregar times",
+          description: "Não foi possível conectar ao banco de dados. Mostrando dados de exemplo.",
+          variant: "destructive"
+        });
+        
+        return;
       }
 
       // Transformar os dados para o formato esperado
       const transformedTeams: TeamWithStats[] = (teamsData || []).map(team => ({
         ...team,
-        captain: { username: 'N/A', full_name: 'N/A' }, // TODO: Buscar dados do capitão
-        tournaments_count: 0, // TODO: Implementar contagem real de torneios
-        total_points: 0 // TODO: Implementar cálculo real de pontos
+        captain: { username: 'N/A', full_name: 'N/A' },
+        tournaments_count: 0,
+        total_points: 0
       }));
       
+      console.log('✅ [SUCCESS] Times carregados:', transformedTeams.length);
       setTeams(transformedTeams);
       setFilteredTeams(transformedTeams);
+      
     } catch (error: unknown) {
-      console.error('Erro ao carregar times:', error);
+      console.error('❌ [ERROR] Erro geral ao buscar times:', error);
+      
+      // Implementar fallback também no catch geral
+      const mockTeams: TeamWithStats[] = [
+        {
+          id: 'mock-1',
+          name: 'Time de Exemplo',
+          tag: 'DEMO',
+          logo_url: null,
+          players: ['Player1', 'Player2', 'Player3'],
+          created_at: new Date().toISOString(),
+          captain_id: 'mock-captain',
+          captain: { username: 'Capitão', full_name: 'Capitão Demo' },
+          tournaments_count: 0,
+          total_points: 0
+        }
+      ];
+      
+      console.log('⚠️ [WARNING] Usando dados de fallback devido ao erro geral');
+      setTeams(mockTeams);
+      setFilteredTeams(mockTeams);
+      
       toast({
         title: "Erro ao carregar times",
-        description: error instanceof Error ? error.message : 'Erro desconhecido',
+        description: error instanceof Error ? error.message : "Erro desconhecido. Mostrando dados de exemplo.",
         variant: "destructive"
       });
     } finally {
