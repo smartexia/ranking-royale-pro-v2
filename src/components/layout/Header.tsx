@@ -1,12 +1,14 @@
 import { Button } from "@/components/ui/button";
-import { Trophy, Target, Users, User, LogOut } from "lucide-react";
+import { Trophy, Target, Users, User, LogOut, Menu, X } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
+import { useState } from "react";
 import codLogo from "@/assets/cod-tournament-logo.png";
 
 const Header = () => {
   const { user, signOut } = useAuth();
   const navigate = useNavigate();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const handleSignOut = async () => {
     await signOut();
@@ -41,6 +43,16 @@ const Header = () => {
           </div>
           
           <div className="flex items-center gap-3">
+            {/* Mobile menu button */}
+            <Button
+              variant="ghost"
+              size="sm"
+              className="md:hidden"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            >
+              {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </Button>
+            
             {user ? (
               <>
                 <span className="hidden md:flex items-center gap-2 font-gaming-body text-gaming-primary text-sm">
@@ -53,17 +65,44 @@ const Header = () => {
                 </Button>
               </>
             ) : (
-              <>
-                <Link to="/auth">
-                  <Button variant="gaming-outline" size="sm">Entrar</Button>
-                </Link>
-                <Link to="/auth">
-                  <Button variant="gaming" size="sm">Registrar</Button>
-                </Link>
-              </>
+              <Link to="/auth">
+                <Button variant="gaming" size="sm">Entrar</Button>
+              </Link>
             )}
           </div>
         </nav>
+        
+        {/* Mobile menu */}
+        {isMobileMenuOpen && (
+          <div className="md:hidden mt-4 pb-4 border-t border-gaming-primary/20">
+            <div className="flex flex-col gap-4 pt-4">
+              <Link 
+                to="/tournaments" 
+                className="flex items-center gap-2 text-foreground hover:text-gaming-primary transition-colors font-gaming-body"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <Trophy className="w-4 h-4" />
+                Torneios
+              </Link>
+              <Link 
+                to="/rankings" 
+                className="flex items-center gap-2 text-foreground hover:text-gaming-primary transition-colors font-gaming-body"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <Target className="w-4 h-4" />
+                Rankings
+              </Link>
+              <Link 
+                to="/teams" 
+                className="flex items-center gap-2 text-foreground hover:text-gaming-primary transition-colors font-gaming-body"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <Users className="w-4 h-4" />
+                Times
+              </Link>
+            </div>
+          </div>
+        )}
       </div>
     </header>
   );
